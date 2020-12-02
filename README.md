@@ -1,4 +1,4 @@
-# Milo vscode
+# Milo
 
 Integrates the [Milo](https://github.com/wawandco/milo) HTML linter tool into vs code.
 
