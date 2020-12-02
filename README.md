@@ -9,7 +9,7 @@ Milo is a linter tool that will check for both syntax correctness and style reco
 This visual code extension allows developers to perform milo when writing and editing HTML files.
 
 ## Usage
-The Milo vs code extension will run Milo on your open HTML files and report the number of rules html file is not accomplishing as warnings on the Status Bar with details in the Problems panel.
+The Milo vs code extension will run Milo on your open HTML files and report the number of rules that don't accomplish in the html file as warnings on the *Status Bar* and details in the *Problems* panel.
 
 ![hero](images/problems.png)
 
@@ -89,14 +89,6 @@ Milo uses the following reviewers:
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
 - [0009] inline-style-disabled: Inline style cannot be used.
 - [0017] inline-script-disabled: Inline script cannot be used.
-
-## Credits
-
-This repo depends heavily in the following libraries that deserve all the credit for making Milo possible:
-
-- golang.org/net/html 
-
-We copied this in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
 
 ## Copyright
 
