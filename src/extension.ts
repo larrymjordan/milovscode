@@ -40,6 +40,7 @@ function miloReview(doc: vscode.TextDocument) {
 	cp.execFile('milo', args, {}, (_err, stdout, _stderr) => {
 		if (stdout.trim() === '') {
 			outputChannel.appendLine('Milo binary was not found. Install it with curl -sf https://gobinaries.com/wawandco/milo/cmd/milo | sh')
+			return;
 		}
 
 		miloDiagnosticCollection.clear();
