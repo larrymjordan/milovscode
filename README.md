@@ -26,14 +26,6 @@ Milo expands details about the rule being warned with hover actions in the activ
 - Milo considers html partials and validates the rules that apply to these.
 - Milo considers erb and [plush](https://github.com/gobuffalo/plush) as part of the HTML.
 
-## Requirements
-
-We recommend using [gobinaries.com](https://gobinaries.com/) to get Milo.
-
-```sh
-curl -sf https://gobinaries.com/wawandco/milo/cmd/milo | sh
-```
-
 You can also download Milo binaries from our releases folder.
 
 ### Configuration
