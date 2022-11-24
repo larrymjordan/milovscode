@@ -1,7 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import cp = require('child_process');
+
 import * as vscode from 'vscode';
+
 
 var outputChannel: vscode.OutputChannel;
 var miloDiagnosticCollection: vscode.DiagnosticCollection;
@@ -18,31 +20,46 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "milo" is now active!');
 
 	// Run Milo when the document is opened.
-	vscode.workspace.onDidOpenTextDocument((doc) => {
-		miloReview(doc);
-	}, null, context.subscriptions);
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return;
+	}
 
-	// Run Milo when document content is changed or updated.
-	vscode.workspace.onDidChangeTextDocument((doc) => {
-		miloReview(doc.document);
-	}, null, context.subscriptions);
+	miloVersion();
+	miloReview(editor.document);
+	
+	// vscode.workspace.onDidOpenTextDocument((doc) => {
+	// 	miloReview(doc);
+	// }, null, context.subscriptions);
+
+	// // // Run Milo when document content is changed or updated.
+	// vscode.workspace.onDidChangeTextDocument((doc) => {
+	// 	miloReview(doc.document);
+	// }, null, context.subscriptions);
+}
+
+function miloVersion() {
+	const stdout = cp.execSync('milo version');
+	console.log(stdout.toString());
+	if (stdout.length === 0) {
+		const stdout = cp.execSync('go install github.com/wawandco/milo/cmd/milo@latest');
+		console.log(stdout);
+		outputChannel.append(stdout.toString());
+	}
 }
 
 function miloReview(doc: vscode.TextDocument) {
-	if (doc.languageId !== 'html' || doc.isUntitled) {
+	console.log(doc.languageId);
+	if ((doc.languageId !== 'html' && doc.languageId !== 'plush') || doc.isUntitled) {
 		return;
 	}
 
 	let uri = doc.uri;
-	let args = ['review', `${uri.fsPath}`];
 
 	outputChannel.clear();
-	cp.execFile('milo', args, {}, (_err, stdout, _stderr) => {
-		if (stdout.trim() === '') {
-			outputChannel.appendLine('Milo binary was not found. Install it with curl -sf https://gobinaries.com/wawandco/milo/cmd/milo | sh')
-			return;
-		}
-
+	console.log(`milo review ${uri.fsPath}`);
+	cp.exec(`milo review ${uri.fsPath}`, (_err, stdout, _stderr) => {
+		console.log(stdout, _err, _stderr);
 		miloDiagnosticCollection.clear();
 
 		let diagnostics: vscode.Diagnostic[] = [];
