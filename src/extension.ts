@@ -33,7 +33,6 @@ function miloVersion() {
 	const stdout = cp.execSync('milo version');
 	if (stdout.length === 0) {
 		const stdout = cp.execSync('go install github.com/wawandco/milo/cmd/milo@latest');
-		console.log(stdout);
 		outputChannel.append(stdout.toString());
 	}
 }
