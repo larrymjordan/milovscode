@@ -27,20 +27,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 	miloVersion();
 	miloReview(editor.document);
-	
-	// vscode.workspace.onDidOpenTextDocument((doc) => {
-	// 	miloReview(doc);
-	// }, null, context.subscriptions);
-
-	// // // Run Milo when document content is changed or updated.
-	// vscode.workspace.onDidChangeTextDocument((doc) => {
-	// 	miloReview(doc.document);
-	// }, null, context.subscriptions);
 }
 
 function miloVersion() {
 	const stdout = cp.execSync('milo version');
-	console.log(stdout.toString());
 	if (stdout.length === 0) {
 		const stdout = cp.execSync('go install github.com/wawandco/milo/cmd/milo@latest');
 		console.log(stdout);
@@ -49,7 +39,6 @@ function miloVersion() {
 }
 
 function miloReview(doc: vscode.TextDocument) {
-	console.log(doc.languageId);
 	if ((doc.languageId !== 'html' && doc.languageId !== 'plush') || doc.isUntitled) {
 		return;
 	}
@@ -57,7 +46,6 @@ function miloReview(doc: vscode.TextDocument) {
 	let uri = doc.uri;
 
 	outputChannel.clear();
-	console.log(`milo review ${uri.fsPath}`);
 	cp.exec(`milo review ${uri.fsPath}`, (_err, stdout, _stderr) => {
 		console.log(stdout, _err, _stderr);
 		miloDiagnosticCollection.clear();
